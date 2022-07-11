@@ -1,2 +1,4 @@
 memtier_benchmark/outputs/*
 !memtier_benchmark/outputs/.gitkeep
+benchmark/outputs/*
+!benchmark/outputs/.gitkeep

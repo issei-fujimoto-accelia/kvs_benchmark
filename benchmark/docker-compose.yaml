@@ -1,0 +1,28 @@
+version: "3.0"
+services:
+  memcached:
+    container_name: "memcached"
+    image: memcached:1.6.15
+    ports:
+      - 11211:11211
+    command:
+      "memcached -t 4 -c 1024"
+  redis:
+    container_name: "redis"
+    image: redis:bullseye
+    ports:
+      - 6379:6379
+    volumes:
+      - ./redis/conf:/usr/local/etc/redis
+    command:
+      "redis-server /usr/local/etc/redis/redis.conf"
+  dragonfly:
+    container_name: "dragonfly"
+    image: docker.dragonflydb.io/dragonflydb/dragonfly
+    ulimits:
+     memlock: -1
+    ports:
+      - 6380:6379
+       
+    
+      
