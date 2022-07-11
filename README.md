@@ -2,7 +2,7 @@
 
 ## run benchmark
 
-run db
+### run db
 
 ```
 $ cd redis/
@@ -18,7 +18,8 @@ $ sh run.sh
 ```
 
 
-run memtier_benchmark
+### run memtier_benchmark
+
 ```
 cd memtier_benchmark/
 sh run.sh {docker-container-id} redis
@@ -32,7 +33,7 @@ Writing results to /outputs/redis.txt...
 ...
 ```
 
-example output
+### example output
 
 ```
 $ cat outputs/redis.txt
@@ -52,13 +53,7 @@ Totals      16780.42       434.37     14819.76      1.18200       646.10
 
 ```
 
-
-## memtier_benchmark
-
-
-
-
-# summary
+## 比較
 ## memcached 
 ### type
 文字列を保存
@@ -139,10 +134,9 @@ redisに比べてmemcachedのほうが、シンプルでメモリの使用率が
 memcachedからredisへの移行はだるいらしい
 
 
+## memtier_benchmark
 
-
-
-### help
+https://github.com/RedisLabs/memtier_benchmark
 
 ```
 $ docker run --rm  redislabs/memtier_benchmark:latest -h
