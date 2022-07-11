@@ -60,11 +60,11 @@ Totals      16780.42       434.37     14819.76      1.18200       646.10
 (redisに比べてオーバーヘッドが少ない)
 
 ### 構成
-マルチマスター
+マルチマスター  
 レプリケーションできないので、マスター間でデータの不整合が起きる可能性がある
 
 ### 分散処理
-キーごとにサーバーを使い分ける
+キーごとにサーバーを使い分ける  
 サーバー自体では分散機能は持たず、クライアントライブラリ側で実装する必要がある
 
 ### 永続化
@@ -85,6 +85,7 @@ https://redis.io/docs/manual/data-types/
 
 ### 構成
 マスター/スレーブ構成
+
 https://www.sraoss.co.jp/tech-blog/redis/redis-ha/
 
 
@@ -97,6 +98,7 @@ https://www.sraoss.co.jp/tech-blog/redis/redis-persistdata/
 
 ### 自動削除
 いくつかポリシーが選択できる
+
 https://redis-documentasion-japanese.readthedocs.io/ja/latest/topics/lru-cache.html
 
 
@@ -105,6 +107,7 @@ https://redis-documentasion-japanese.readthedocs.io/ja/latest/topics/lru-cache.h
 https://dragonflydb.io/platform/
 
 基本redis互換。この辺が使える
+
 https://github.com/dragonflydb/dragonfly#configuration
 
 
