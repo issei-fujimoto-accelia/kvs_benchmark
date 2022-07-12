@@ -1,4 +1,12 @@
 memtier_benchmark/outputs/*
 !memtier_benchmark/outputs/.gitkeep
+
 benchmark/outputs/*
 !benchmark/outputs/.gitkeep
+
+benchmark/graph/images/*
+!benchmark/graph/images/.gitkeep
+
+benchmark/graph/.venv
+benchmark/graph/outputs/*
+!benchmark/graph/outputs/.gitkeep
