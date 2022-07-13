@@ -36,7 +36,14 @@ class Results:
             names.append(l.name)
             values.append(l.latency)
         return names, values
-        
+
+    def get_list_by(self, key, by):
+        x = []
+        y = []
+        for idx,l in enumerate(self.li):
+            x.append(l.get(by, idx))
+            y.append(l.get(key, idx))
+        return x,y
         
 class Result:
     def __init__(self, throughput, latency, requests, port):
@@ -44,13 +51,15 @@ class Result:
         self.latency = latency
         self.requests = requests
         self.name = ""
-        print("port", port)
         if port == 6379:
             self.name = "redis"
         if port == 6380:
             self.name = "df"
         if port == 11211:
             self.name = "memcached"
+    def get(self, key, default):
+        return self.__dict__.get(key, default)
+            
 
 
 def graph(ax, x, y, title, y_title):
@@ -63,6 +72,11 @@ def graph(ax, x, y, title, y_title):
         r.set_color(c[i])
 
 
+def get_title(file_name, default):
+    if file_name is not None:
+        return os.path.splitext(os.path.basename(file_name))[0]
+    else:
+        return default
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-o")
@@ -82,10 +96,15 @@ fig = plt.figure()
 ax1 = fig.add_subplot(1, 2, 1)
 ax2 = fig.add_subplot(1, 2, 2)
 
-x, y = results.throughput_list()
+title = get_title(save_file, "graph")
+plt.suptitle(title,fontsize=15)
+
+x, y = results.get_list_by("throughput", "name")
+# x, y = results.get_list_by("throughput", None)
 graph(ax1, x, y, "Ops/sec", "Ops/sec")
 
-x, y = results.latency_list()
+x, y = results.get_list_by("latency", "name")
+# x, y = results.get_list_by("Latency", None)
 graph(ax2, x, y, "Latency", "Latency")
 
 if save_file is None:
