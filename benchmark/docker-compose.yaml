@@ -9,7 +9,9 @@ services:
       "memcached -t 4 -c 1024"
   redis:
     container_name: "redis"
-    image: redis:bullseye
+    build:
+      context: ./redis
+      dockerfile: Dockerfile
     ports:
       - 6379:6379
     volumes:

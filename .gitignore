@@ -10,3 +10,6 @@ benchmark/graph/images/*
 benchmark/graph/.venv
 benchmark/graph/outputs/*
 !benchmark/graph/outputs/.gitkeep
+
+benchmark/check_memory/.venv
+
