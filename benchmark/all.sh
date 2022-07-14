@@ -15,7 +15,7 @@ benchmark() {
 
   echo $ip $port
 
-  output=${output_file}_t${threads}_c${clients}_t${test_time}_p${pipeline}
+  output=${output_file}_t${threads}_c${clients}_t${request_num}_p${pipeline}
   echo $output
 
   docker run --rm --network=host \
@@ -47,7 +47,7 @@ run_mem() {
   clients=$3
   req_num=$4
   pipeline=$5
-  benchmark ${id} "memcache_text" ${threads} ${clients} ${req_nun}  ${pipeline} "memcache"
+  benchmark ${id} "memcache_text" ${threads} ${clients} ${req_num}  ${pipeline} "memcache"
 }
 run_df() {
   id=$1
