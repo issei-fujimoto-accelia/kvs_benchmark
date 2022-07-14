@@ -1,21 +1,21 @@
 #!/bin/bash
 benchmark() {
-  target_id=$1
+  port=$1
   prot=$2
   threads=$3
   clients=$4
   # test_time=$5
   request_num=$5
-  pipeline=$6 
-  output_file=$7  
-  
+  pipeline=$6
+  output_file=$7
+
   # ip=`docker inspect --format='{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $target_id`
-  ip="127.0.0.1"
-  port=`docker inspect --format='{{range $p, $conf := .NetworkSettings.Ports}}{{(index $conf 0).HostPort}} {{end}}' $target_id`
+  ip="10.0.1.5"
+  # port=`docker inspect --format='{{range $p, $conf := .NetworkSettings.Ports}}{{(index $conf 0).HostPort}} {{end}}' $target_id`
 
   echo $ip $port
 
-  output=${output_file}_t${threads}_c${clients}_t${request_num}_p${pipeline}
+  output=${output_file}_t${threads}_c${clients}_r${request_num}_p${pipeline}
   echo $output
 
   docker run --rm --network=host \
@@ -34,48 +34,39 @@ benchmark() {
 
 
 run_redis() {
-  id=$1
-  threads=$2
-  clients=$3
-  req_num=$4
-  pipeline=$5
-  benchmark ${id} "redis" ${threads} ${clients} ${req_num}  ${pipeline} "redis"
+  threads=$1
+  clients=$2
+  req_num=$3
+  pipeline=$4
+  benchmark 6379 "redis" ${threads} ${clients} ${req_num}  ${pipeline} "redis"
 }
 run_mem() {
-  id=$1
-  threads=$2
-  clients=$3
-  req_num=$4
-  pipeline=$5
-  benchmark ${id} "memcache_text" ${threads} ${clients} ${req_num}  ${pipeline} "memcache"
+  threads=$1
+  clients=$2
+  req_num=$3
+  pipeline=$4
+  benchmark 11211 "memcache_text" ${threads} ${clients} ${req_num} ${pipeline} "memcache"
 }
 run_df() {
-  id=$1
-  threads=$2
-  clients=$3
-  req_num=$4
-  pipeline=$5
-  benchmark ${id} "redis" ${threads} ${clients} ${req_num}  ${pipeline} "df"
+  threads=$1
+  clients=$2
+  req_num=$3
+  pipeline=$4
+  benchmark 6380 "redis" ${threads} ${clients} ${req_num}  ${pipeline} "df"
 }
 
 
-redis_id=`docker ps -aqf "name=^redis$"`
-mem_id=`docker ps -aqf "name=^memcached$"`
-df_id=`docker ps -aqf "name=^dragonfly$"`
+run_redis 4 30 1000 10
+run_redis 4 30 10000 10
+run_redis 4 30 100000 10
+run_redis 4 30 1000000 10
 
+run_mem 4 30 1000 10
+run_mem 4 30 10000 10
+run_mem 4 30 100000 10
+run_mem 4 30 1000000 10
 
-# run_redis ${redis_id} 4 30 1000 1
-# run_redis ${redis_id} 4 30 10000 1
-# run_redis ${redis_id} 4 30 100000 1
-# run_redis ${redis_id} 4 30 1000000 1
-
-# run_mem ${mem_id} 4 30 1000 1
-# run_mem ${mem_id} 4 30 10000 1
-# run_mem ${mem_id} 4 30 100000 1
-# run_mem ${mem_id} 4 30 1000000 1
-
-# run_df ${df_id} 4 30 1000 1
-# run_df ${df_id} 4 30 10000 1
-# run_df ${df_id} 4 30 100000 1
-# run_df ${df_id} 4 30 1000000 1
-
+run_df 4 30 1000 10
+run_df 4 30 10000 10
+run_df 4 30 100000 10
+run_df 4 30 1000000 10
